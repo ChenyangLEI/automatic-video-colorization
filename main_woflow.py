@@ -14,7 +14,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", default='ckpt_woflow', type=str, help="Model Name")
 parser.add_argument("--use_gpu", default=1, type=int, help="Use gpu or not")
-parser.add_argument("--test_dir", default='../DAVIS/test/JPEGImages/480p/goat', type=str, help="Test dir path")
+parser.add_argument("--test_dir", default='test_sample0', type=str, help="Test dir path")
 parser.add_argument("--test_img", default='', type=str, help="Test image path")
 
 
