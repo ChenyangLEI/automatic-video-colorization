@@ -10,11 +10,6 @@ from tensorflow.python.ops import math_ops
 from tensorflow.python.framework import ops
 
 
-# IMG_EXTENSIONS = [
-#     '.jpg', '.JPG', '.jpeg', '.JPEG',
-#     '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP',
-# ]
-
 IMG_EXTENSIONS = [
     '.png', '.PNG', 'jpg', 'JPG', '.jpeg', '.JPEG',
     '.ppm', '.PPM', '.bmp', '.BMP',
@@ -317,20 +312,6 @@ def build_nlayer(input, nlayer):
     return input
 
 
-def build_less(input):
-    vgg19_features=build_vgg19(input[:,:,:,0:3]*255.0)
-    for layer_id in range(1,3):
-        vgg19_f = vgg19_features['conv%d_2'%layer_id]
-        input = tf.concat([tf.image.resize_bilinear(vgg19_f,(tf.shape(input)[1],tf.shape(input)[2]))/255.0,input], axis=3)
-    return input
-def build_less_2(input):
-    vgg19_features=build_vgg19(input[:,:,:,0:3]*255.0)
-    for layer_id in range(1,2):
-        vgg19_f = vgg19_features['conv%d_2'%layer_id]
-        input = tf.concat([tf.image.resize_bilinear(vgg19_f,(tf.shape(input)[1],tf.shape(input)[2]))/255.0,input], axis=3)
-    return input
-
-
 def linear(input_, output_size, scope=None, stddev=0.02, bias_start=0.0, with_w=False):
     shape = input_.get_shape().as_list()
 
@@ -355,34 +336,3 @@ def conv_2d(input_, output_dim,
         conv = tf.reshape(tf.nn.bias_add(conv, biases), conv.get_shape())
 
         return conv
-
-
-def hue_loss(x, y):
-    distance = tf.concat([tf.abs(x-y),  -tf.abs(x-y)+1],axis=3)
-    distance = tf.reduce_min(distance, axis=3) 
-    return distance
-
-def color_histogram(img_path, ch):
-    if ch==-1: return np.histogram(imread(img_path), 256)[0]
-    else: return np.histogram(imread(img_path)[:,:,ch], 256)[0]
- 
-def compare_histogram(img_path1, img_path2):
-    for i in range(4):
-        print(np.sum(np.abs(color_histogram(img_path1, i-1)-color_histogram(img_path2, i-1)))) 
-
-def canny_boundary(img_path):
-    image0 = imread(img_path)
-    image = cv2.cvtColor(image0,cv2.COLOR_RGB2GRAY)
-    start = time.time()
-    edgeRGB = feature.canny(image,sigma=1)
-    print(time.time() - start)
-    plt.imshow(edgeRGB,cmap=plt.cm.gray)
-    edgeR = feature.canny(image0[:,:,0],sigma=1)
-    edgeG = feature.canny(image0[:,:,1],sigma=1)
-    edgeB = feature.canny(image0[:,:,2],sigma=1) 
-    line=np.ones([20,edgeRGB.shape[1]])
-    edges = np.concatenate([edgeRGB, line,edgeR,line,edgeG,line,edgeB],axis=0)
-    rgbs = np.concatenate([image, line, image0[:,:,0],line,image0[:,:,1],line,image0[:,:,2]],axis=0)
-    imsave('RGB_edges.png',np.concatenate([rgbs, edges*255.0],axis=1))
-    imsave('RGB.png', image0)
-#canny_boundary(img_path)
