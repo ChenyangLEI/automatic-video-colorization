@@ -8,7 +8,7 @@ This is a Tensorflow implementation for the paper 'Fully Automatic Video Coloriz
 ```
 
 
-## Quick inference 
+## Quick inference( without refinement network) 
 For convenience, we also provide the version without the refinement network.
 It's easier to use.
 
