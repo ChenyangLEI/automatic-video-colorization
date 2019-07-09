@@ -21,8 +21,8 @@ It's easier to use.
 First, download the ckpt. 
 
 ```
-pip install gdown
-gdown https://drive.google.com/uc?id=1yL8x7RL_82Mvyh_ebmh3uF6wiPOO2dU7
+python download_models.py
+unzip ckpt_woflow.zip
 ```
 
 For video colorization
@@ -53,6 +53,41 @@ OpenCV 3.4.2.16
 
 Tested on Ubuntu 16.04 + Nvidia 1080Ti + Cuda 8.0 + cudnn 7.0
 
+
+## Training
+After downloading the dataset,
+
+```
+python main.py --model YOUR_MODEL_NAME --data_dir data
+```
+
+### Using your own data
+Arrange your data in the following format:
+
+```
++data
+-----+JPEGImages
+----------------+480p
+---------------------+VideoFrames1
+---------------------+VideoFrames2
+-----+FLOWImages
+----------------+Forward
+-----------------------+VideoFrames1
+-----------------------+VideoFrames2
+----------------+Backward
+-----------------------+VideoFrames1
+-----------------------+VideoFrames2
+-----+FLOWImages_GRAY
+--------------------+Forward
+----------------------------+VideoFrames1
+----------------------------+VideoFrames2
+--------------------+Backward
+----------------------------+VideoFrames1
+----------------------------+VideoFrames2
+```
+
+Please generate the optical flow by PWC-Net. If you use FlowNet2 or other methods, please make sure the file format is the same.
+
 ## Citation
 If you use our code or paper, please cite:
 
@@ -68,3 +103,4 @@ year = {2019}
 
 ## Contact
 If you have any question, please feel free to contact me (Chenyang LEI, leichenyang7@gmail.com)
+
