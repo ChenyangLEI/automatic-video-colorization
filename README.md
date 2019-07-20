@@ -3,7 +3,6 @@ This is a Tensorflow implementation for the paper 'Fully Automatic Video Coloriz
 ## To do
 
 ```
-- Upload training data, testing data and ckpt of the whole model.
 - Upload the training code, inference code of the whole model 
 ```
 
