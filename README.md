@@ -48,14 +48,15 @@ Tested on Ubuntu 16.04 + Nvidia 1080Ti + Cuda 8.0 + cudnn 7.0
 
 
 ## Training
-After downloading the dataset,
 
 ```
 python main.py --model YOUR_MODEL_NAME --data_dir data
 ```
 
-### Using your own data
-Arrange your data in the following format:
+### Prepare the dataset
+Since the dataset is too large (More than 100GB). We will not upload them. 
+
+Please download the DAVIS dataset and generate the optical flow by PWC-Net by yourself. And please arrange your data in the following format:
 
 ```
 +data
