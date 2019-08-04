@@ -1,11 +1,5 @@
 This is a Tensorflow implementation for the paper 'Fully Automatic Video Colorization with Self-Regularization and Diversity'.
 
-## To do
-
-```
-- Upload the training code, inference code of the whole model 
-```
-
 
 ## Quick inference( without refinement network) 
 For convenience, we also provide the version without the refinement network.
