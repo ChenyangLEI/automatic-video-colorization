@@ -54,9 +54,7 @@ python main.py --model YOUR_MODEL_NAME --data_dir data
 ```
 
 ### Prepare the dataset
-Since the dataset is too large (More than 100GB). We will not upload them. 
-
-Please download the DAVIS dataset and generate the optical flow by PWC-Net by yourself. If you want to use FlowNet2 or other methods, please make sure the file format is the same.
+For the video dataset, please download the DAVIS dataset and generate the optical flow by PWC-Net by yourself. If you want to use FlowNet2 or other methods, please make sure the file format is the same.
 
 At last, please arrange your data in the following format:
 
@@ -82,6 +80,7 @@ At last, please arrange your data in the following format:
 ----------------------------+VideoFrames2
 ```
 
+For the image dataset, please download the ImageNet dataset.
 
 ## Citation
 If you use our code or paper, please cite:
