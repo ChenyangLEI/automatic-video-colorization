@@ -1,5 +1,9 @@
+
 This is a Tensorflow implementation for the paper 'Fully Automatic Video Colorization with Self-Regularization and Diversity'.
 
+## Our results on DAVIS and Videvo
+If you need to compare with our results, please download the following dataset.
+https://drive.google.com/open?id=1XLfChKJiOnYuSx_g8xaAKeKixOhxbShz
 
 ## Quick inference( without refinement network) 
 For convenience, we also provide the version without the refinement network.
