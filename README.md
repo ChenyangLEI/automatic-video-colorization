@@ -4,6 +4,8 @@ This is a Tensorflow implementation for the paper 'Fully Automatic Video Coloriz
 
 ![alt text](https://github.com/ChenyangLEI/Fully-Automatic-Video-Colorization-with-Self-Regularization-and-Diversity/blob/master/Teaser.PNG)
 
+More results are shown on our project website https://leichenyang.weebly.com/project-color.html
+
 ## Our results on DAVIS and Videvo
 If you need to compare with our results, please download the following dataset.
 https://drive.google.com/open?id=1XLfChKJiOnYuSx_g8xaAKeKixOhxbShz
