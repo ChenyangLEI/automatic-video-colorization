@@ -27,7 +27,7 @@ python download_models.py
 unzip ckpt_woflow.zip
 ```
 
-For video colorization
+For video colorization, the video should be split to frames first, i.e., transfer video format (.mp4/.avi) to image format (.jpg/.png)
 ```
 python main_woflow.py --model ckpt_woflow --use_gpu 1 --test_dir /PATH/TO/TEST/DIR
 
