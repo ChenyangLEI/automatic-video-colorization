@@ -6,6 +6,12 @@ This is a Tensorflow implementation for the paper 'Fully Automatic Video Coloriz
 
 More results are shown on our project website https://leichenyang.weebly.com/project-color.html
 
+## News
+We propose a novel and general framework [Deep-Video-Prior](https://chenyanglei.github.io/DVP/index.html) 
+that can address the temporal inconsistency problem given an input video and a processed video.
+We can obtain high-quality video using a single-image colorization method and our novel framework.
+ 
+
 ## Our results on DAVIS and Videvo
 If you need to compare with our results, please download the following dataset.
 https://drive.google.com/open?id=1XLfChKJiOnYuSx_g8xaAKeKixOhxbShz
