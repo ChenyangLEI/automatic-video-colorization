@@ -47,6 +47,14 @@ os.environ["CUDA_VISIBLE_DEVICES"]=str(np.argmax( [int(x.split()[2]) for x in su
 
 
 def occlusion_mask(im0, im1, flow10):
+    """
+    Occlusion mask.
+
+    Args:
+        im0: (array): write your description
+        im1: (array): write your description
+        flow10: (todo): write your description
+    """
     warp_im0 = flow_warp_op.flow_warp(im0, flow10)
     diff = tf.abs(im1 - warp_im0)
     mask = tf.reduce_max(diff, axis=3, keep_dims=True)
@@ -56,6 +64,13 @@ def occlusion_mask(im0, im1, flow10):
     return mask, warp_im0
 
 def Bilateral_NN(color_image, neigh):
+    """
+    Find the image tomodified image in the image.
+
+    Args:
+        color_image: (str): write your description
+        neigh: (todo): write your description
+    """
     h,w = color_image.shape[:2]    
     color_image_X = np.tile(np.arange(w),[h,1])/500.
     color_image_Y = np.tile(np.arange(h),[w,1]).T/500.
@@ -66,6 +81,14 @@ def Bilateral_NN(color_image, neigh):
     return idxs
 
 def prepare_input_w_flow(path, num_frames,gray=False):
+    """
+    Prepare flow flow flow flow flow.
+
+    Args:
+        path: (str): write your description
+        num_frames: (int): write your description
+        gray: (todo): write your description
+    """
     file_id=os.path.splitext(os.path.basename(path))[0]
     input_image_src, input_image_target = utils.read_image_sequence(path, num_frames=num_frame)
     if input_image_target is None:

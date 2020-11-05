@@ -15,6 +15,12 @@ IMG_EXTENSIONS = [
     '.ppm', '.PPM', '.bmp', '.BMP',
 ]
 def check_image(image):
+    """
+    Checks if image is correct.
+
+    Args:
+        image: (todo): write your description
+    """
     assertion = tf.assert_equal(tf.shape(image)[-1], 3, message="image must have 3 color channels")
     with tf.control_dependencies([assertion]):
         image = tf.identity(image)
@@ -29,6 +35,12 @@ def check_image(image):
     return image
 
 def get_names(dir='./'):
+    """
+    Return a list of all the names in the directory.
+
+    Args:
+        dir: (str): write your description
+    """
     old_names = os.popen("ls %s"%dir).readlines()
     new_names = [None]*len(old_names)
     for idx in range(len(old_names)):
@@ -37,6 +49,12 @@ def get_names(dir='./'):
 
 
 def is_image_file(filename):
+    """
+    Determine if a file is an image.
+
+    Args:
+        filename: (str): write your description
+    """
     return any(filename.endswith(extension) for extension in IMG_EXTENSIONS)
 
 '''
@@ -46,6 +64,13 @@ Return: gray_images, color_images
         pixel values [0,1]
 '''
 def read_image_sequence(filename, num_frames):
+    """
+    Read a numpy array.
+
+    Args:
+        filename: (str): write your description
+        num_frames: (int): write your description
+    """
     file1 = os.path.splitext(os.path.basename(filename))[0]
     ext = os.path.splitext(os.path.basename(filename))[1]
     try:
@@ -81,6 +106,13 @@ def read_image_sequence(filename, num_frames):
 
 
 def read_image_SPMC(filename, num_frames):
+    """
+    Reads antsimage from a file.
+
+    Args:
+        filename: (str): write your description
+        num_frames: (int): write your description
+    """
     file1 = os.path.splitext(os.path.basename(filename))[0]
     ext = os.path.splitext(os.path.basename(filename))[1]
 
@@ -116,6 +148,13 @@ def read_image_SPMC(filename, num_frames):
     return img_l_seq, img_h_seq
 
 def read_flow_sequence_w_mask(filename, num_frames):
+    """
+    Reads a flow mask for the flow mask file.
+
+    Args:
+        filename: (str): write your description
+        num_frames: (int): write your description
+    """
     file1 = os.path.splitext(os.path.basename(filename))[0]
     folder = os.path.split(filename)[0]
     ext = os.path.splitext(os.path.basename(filename))[1]
@@ -151,6 +190,13 @@ def read_flow_sequence_w_mask(filename, num_frames):
 
 
 def read_flow_sequence(filename, num_frames):
+    """
+    Read flow sequence. flow file.
+
+    Args:
+        filename: (str): write your description
+        num_frames: (int): write your description
+    """
     file1 = os.path.splitext(os.path.basename(filename))[0]
     folder = os.path.split(filename)[0]
     ext = os.path.splitext(os.path.basename(filename))[1]
@@ -176,6 +222,14 @@ def read_flow_sequence(filename, num_frames):
 
 
 def read_flow_sintel(filename, num_frames, substr="clean"):
+    """
+    Read flow flow flow flow flow file.
+
+    Args:
+        filename: (str): write your description
+        num_frames: (int): write your description
+        substr: (str): write your description
+    """
     file1 = os.path.splitext(os.path.basename(filename))[0]
     folder = os.path.split(filename)[0]
     flowfolder = folder.replace(substr, "flow")
@@ -207,6 +261,12 @@ def read_flow_sintel(filename, num_frames, substr="clean"):
     return flow_seq, flow_seq_mask, flow_seq_inval
 
 def read_image_path(file_path):
+    """
+    Reads a list of paths.
+
+    Args:
+        file_path: (str): write your description
+    """
     path_all=[]
     for dirname in file_path:
         for root, dir, fnames in sorted(os.walk(dirname)):
@@ -216,6 +276,12 @@ def read_image_path(file_path):
     return path_all
 
 def flip_images(X):
+    """
+    Flip all images.
+
+    Args:
+        X: (todo): write your description
+    """
     num_img = X.shape[0]
     magic=np.random.random()
     if magic < 0.3:
@@ -228,6 +294,13 @@ def flip_images(X):
     return X
 
 def pad_images(X,a):
+    """
+    Pad an image to pad
+
+    Args:
+        X: (str): write your description
+        a: (str): write your description
+    """
     num_img = X.shape[0]
     h_orig,w_orig = X.shape[1:3]
     newX = np.ones((num_img,a,a,3))
@@ -237,6 +310,15 @@ def pad_images(X,a):
     return newX
 
 def crop_images(X,a,b,is_sq=False):
+    """
+    Crops the image to b.
+
+    Args:
+        X: (todo): write your description
+        a: (todo): write your description
+        b: (todo): write your description
+        is_sq: (bool): write your description
+    """
     h_orig,w_orig = X.shape[1:3]
     w_crop = np.random.randint(a, b)
     r = w_crop/w_orig
@@ -250,12 +332,33 @@ def crop_images(X,a,b,is_sq=False):
     return X[:,h_offset:h_offset+h_crop-1,w_offset:w_offset+w_crop-1,:]
 
 def degamma(X):
+    """
+    Calculate angle between two points.
+
+    Args:
+        X: (array): write your description
+    """
     return np.power(X, 2.2)
 
 def gamma(X):
+    """
+    Compute the gamma function.
+
+    Args:
+        X: (int): write your description
+    """
     return np.power(X, 1/2.2)
 
 def build_net(ntype,nin,nwb=None,name=None):
+    """
+    Builds the network.
+
+    Args:
+        ntype: (str): write your description
+        nin: (todo): write your description
+        nwb: (todo): write your description
+        name: (str): write your description
+    """
     if ntype=='conv':
         return tf.nn.relu(tf.nn.conv2d(nin,nwb[0],strides=[1,1,1,1],padding='SAME',name=name)+nwb[1])
     elif ntype=='pool':
@@ -263,6 +366,13 @@ def build_net(ntype,nin,nwb=None,name=None):
 
 
 def get_weight_bias(vgg_layers,i):
+    """
+    Compute the bias.
+
+    Args:
+        vgg_layers: (list): write your description
+        i: (todo): write your description
+    """
     weights=vgg_layers[i][0][0][2][0][0]
     weights=tf.constant(weights)
     bias=vgg_layers[i][0][0][2][0][1]
@@ -271,6 +381,13 @@ def get_weight_bias(vgg_layers,i):
 
 vgg_rawnet=scipy.io.loadmat('VGG_Model/imagenet-vgg-verydeep-19.mat')
 def build_vgg19(input,reuse=False):
+    """
+    Builds the network.
+
+    Args:
+        input: (todo): write your description
+        reuse: (todo): write your description
+    """
     with tf.variable_scope("vgg19"):
         if reuse:
             tf.get_variable_scope().reuse_variables()
@@ -298,6 +415,12 @@ def build_vgg19(input,reuse=False):
         return net
 
 def build(input):
+    """
+    Builds the graph.
+
+    Args:
+        input: (array): write your description
+    """
     vgg19_features=build_vgg19(input[:,:,:,0:3]*255.0)
     for layer_id in range(1,6):#6
         vgg19_f = vgg19_features['conv%d_2'%layer_id]
@@ -305,6 +428,13 @@ def build(input):
     return input
 
 def build_nlayer(input, nlayer):
+    """
+    Build a tensorflow graph.
+
+    Args:
+        input: (array): write your description
+        nlayer: (todo): write your description
+    """
     vgg19_features=build_vgg19(input[:,:,:,0:3]*255.0)
     for layer_id in range(1,nlayer):#6
         vgg19_f = vgg19_features['conv%d_2'%layer_id]
@@ -313,6 +443,17 @@ def build_nlayer(input, nlayer):
 
 
 def linear(input_, output_size, scope=None, stddev=0.02, bias_start=0.0, with_w=False):
+    """
+    Return a linear layer.
+
+    Args:
+        input_: (todo): write your description
+        output_size: (int): write your description
+        scope: (int): write your description
+        stddev: (int): write your description
+        bias_start: (int): write your description
+        with_w: (int): write your description
+    """
     shape = input_.get_shape().as_list()
 
     with tf.variable_scope(scope or "Linear"):
@@ -327,6 +468,19 @@ def linear(input_, output_size, scope=None, stddev=0.02, bias_start=0.0, with_w=
 def conv_2d(input_, output_dim, 
            k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02,
            name="conv2d"):
+    """
+    Conv_2d layer.
+
+    Args:
+        input_: (todo): write your description
+        output_dim: (str): write your description
+        k_h: (int): write your description
+        k_w: (int): write your description
+        d_h: (int): write your description
+        d_w: (int): write your description
+        stddev: (float): write your description
+        name: (str): write your description
+    """
     with tf.variable_scope(name):
         w = tf.get_variable('w', [k_h, k_w, input_.get_shape()[-1], output_dim],
                             initializer=tf.truncated_normal_initializer(stddev=stddev))
