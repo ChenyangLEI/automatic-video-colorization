@@ -1,6 +1,13 @@
 import requests
 
 def download_file_from_google_drive(id, destination):
+    """
+    Download google drive drive to google drive.
+
+    Args:
+        id: (str): write your description
+        destination: (str): write your description
+    """
     URL = "https://docs.google.com/uc?export=download"
 
     session = requests.Session()
@@ -15,6 +22,12 @@ def download_file_from_google_drive(id, destination):
     save_response_content(response, destination)    
 
 def get_confirm_token(response):
+    """
+    Get the access token.
+
+    Args:
+        response: (todo): write your description
+    """
     for key, value in response.cookies.items():
         if key.startswith('download_warning'):
             return value
@@ -22,6 +35,13 @@ def get_confirm_token(response):
     return None
 
 def save_response_content(response, destination):
+    """
+    Saves response content to destination.
+
+    Args:
+        response: (todo): write your description
+        destination: (str): write your description
+    """
     CHUNK_SIZE = 32768
 
     with open(destination, "wb") as f:

@@ -186,6 +186,12 @@ def write_flow(flow, filename):
     f.close()
 
 def segment_flow(flow):
+    """
+    Segment flow flow
+
+    Args:
+        flow: (todo): write your description
+    """
     h = flow.shape[0]
     w = flow.shape[1]
     u = flow[:, :, 0]

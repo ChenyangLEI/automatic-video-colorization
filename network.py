@@ -10,7 +10,22 @@ import subprocess
 
 
 def identity_initializer():
+    """
+    Returns a 2d initializer.
+
+    Args:
+    """
     def _initializer(shape, dtype=tf.float32, partition_info=None):
+        """
+        Initialize the initializer.
+
+        Args:
+            shape: (int): write your description
+            dtype: (str): write your description
+            tf: (array): write your description
+            float32: (todo): write your description
+            partition_info: (todo): write your description
+        """
         array = np.zeros(shape, dtype=float)
         cx, cy = shape[0]//2, shape[1]//2
         for i in range(np.minimum(shape[2],shape[3])):
@@ -19,9 +34,25 @@ def identity_initializer():
     return _initializer
 
 def lrelu(x):
+    """
+    Lrelu function.
+
+    Args:
+        x: (todo): write your description
+    """
     return tf.maximum(x*0.2,x)
 
 def bilinear_up_and_concat(x1, x2, output_channels, in_channels, scope):
+    """
+    Concatenate 2d layers.
+
+    Args:
+        x1: (todo): write your description
+        x2: (todo): write your description
+        output_channels: (todo): write your description
+        in_channels: (int): write your description
+        scope: (str): write your description
+    """
     with tf.variable_scope(scope):
         upconv = tf.image.resize_images(x1, [tf.shape(x1)[1]*2, tf.shape(x1)[2]*2] )
         upconv.set_shape([None, None, None, in_channels])
@@ -31,6 +62,17 @@ def bilinear_up_and_concat(x1, x2, output_channels, in_channels, scope):
     return upconv_output
 
 def VCN(input, channel=32, output_channel=3,reuse=False,ext="",div_num=4):
+    """
+    Creates convolution layer.
+
+    Args:
+        input: (array): write your description
+        channel: (int): write your description
+        output_channel: (todo): write your description
+        reuse: (todo): write your description
+        ext: (str): write your description
+        div_num: (int): write your description
+    """
     if reuse:
         tf.get_variable_scope().reuse_variables()
     conv1=slim.conv2d(input,channel,[1,1], rate=1, activation_fn=lrelu, weights_initializer=tf.contrib.layers.xavier_initializer(),scope=ext+'g_conv1_1')
@@ -62,6 +104,16 @@ def VCN(input, channel=32, output_channel=3,reuse=False,ext="",div_num=4):
     return conv9
 
 def VCRN(input, channel=32, output_channel=3,reuse=False,ext="VCRN"):
+    """
+    Creates a convolution.
+
+    Args:
+        input: (array): write your description
+        channel: (int): write your description
+        output_channel: (str): write your description
+        reuse: (todo): write your description
+        ext: (str): write your description
+    """
     if reuse:
         tf.get_variable_scope().reuse_variables()
     conv1=slim.conv2d(input,channel,[1,1], rate=1, activation_fn=lrelu, weights_initializer=tf.contrib.layers.xavier_initializer(),scope=ext+'r_conv1_1')
