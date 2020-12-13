@@ -1,5 +1,5 @@
 
-This is a Tensorflow implementation for the paper 'Fully Automatic Video Colorization with Self-Regularization and Diversity'.
+This is a Tensorflow implementation for the CVPR 2019 paper 'Fully Automatic Video Colorization with Self-Regularization and Diversity'.
 
 
 ![alt text](https://github.com/ChenyangLEI/Fully-Automatic-Video-Colorization-with-Self-Regularization-and-Diversity/blob/master/Teaser.PNG)
@@ -12,20 +12,31 @@ that can address the temporal inconsistency problem given an input video and a p
 We can obtain high-quality video using a single-image colorization method and our novel framework.
  
 
-## Our results on DAVIS and Videvo
-If you need to compare with our results, please download the following dataset.
-https://drive.google.com/open?id=1XLfChKJiOnYuSx_g8xaAKeKixOhxbShz
 
 ## Quick inference( without refinement network) 
-For convenience, we also provide the version without the refinement network.
-It's easier to use.
+```
+conda env create -f environment.yml
+conda activate automatic-video-colorization
+bash pretrained_models/download_models.sh
+python test.py --task model_latest
+```
 
-(1) You don't need to generate optical flow by PWC-Net for refinement. 
+## Dependency
+This code is based on tensorflow. It has been tested on Ubuntu 18.04 LTS.
 
-(2) Less libraries are required.
+Anaconda is recommended: Ubuntu 18.04 | Ubuntu 16.04
 
-(3) It could also be used for single image colorization. 
+After installing Anaconda, you can setup the environment simply by
 
+```
+conda env create -f environment.yml
+conda activate automatic-video-colorization
+```
+
+## Usage
+### Image colorization
+
+### Video colorization without optical flow
 First, download the ckpt. 
 
 ```
