@@ -1,7 +1,8 @@
 import numpy as np
 import tensorflow as tf
 import os, cv2
-import math,scipy
+import math
+from scipy import io
 import myflowlib as flowlib
 import scipy.misc as sic
 # from flownet2.src import flow_warp
@@ -269,7 +270,7 @@ def get_weight_bias(vgg_layers,i):
     bias=tf.constant(np.reshape(bias,(bias.size)))
     return weights,bias
 
-vgg_rawnet=scipy.io.loadmat('VGG_Model/imagenet-vgg-verydeep-19.mat')
+vgg_rawnet==io.loadmat('VGG_Model/imagenet-vgg-verydeep-19.mat')
 def build_vgg19(input,reuse=False):
     with tf.variable_scope("vgg19"):
         if reuse:
