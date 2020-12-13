@@ -17,6 +17,7 @@ parser.add_argument("--model", default='model_div_woflow', type=str, help="Model
 parser.add_argument("--use_gpu", default=1, type=int, help="Use gpu or not")
 parser.add_argument("--video_path", default='demo_vid', type=str, help="Test video dir")
 parser.add_argument("--img_path", default=None, type=str, help="Test image path")
+parser.add_argument("--output_dir", default=None, type=str, help="Output frames dir")
 
 
 ARGS = parser.parse_args()
@@ -103,26 +104,33 @@ ckpt=tf.train.get_checkpoint_state("pretrained_models/" + model)
 print('loaded '+ ckpt.model_checkpoint_path)
 saver_restore.restore(sess,ckpt.model_checkpoint_path)
 
+folder = video_path.split('/')[-1]
+output_dir = ARGS.video_path[:-1] + "_colorized" if ARGS.video_path.endswith("/") else ARGS.video_path + "_colorized" 
+
+# if ARGS.output_dir is None:
+#     output_dir = "test_result/{}/{}".format(model, folder)
+# else:
+#     output_dir = ARGS.output_dir
 if img_path is None:
     img_names = utils.get_names(video_path)
     ind=0
-    for img_name in img_names:
+    for frame_id, img_name in enumerate(img_names):
         im = np.array(Image.open(img_name).convert("L")) / 255.
         h = im.shape[0]//32*32
         w = im.shape[1]//32*32
         im = im[np.newaxis,:h,:w,np.newaxis]
         st=time.time()
         output=sess.run(g0,feed_dict={input_i:np.concatenate((im,im),axis=3)})
-        print("test time for %s --> %.3f"%(ind, time.time()-st))
-        folder = video_path.split('/')[-1]
-        if not os.path.isdir("test_result/%s/%s" % (model,folder)):
-            for idx in range(5):
-                os.makedirs("test_result/%s/%s/result%d" % (model,folder,idx))
+        if frame_id % 10 == 0:
+            print("test time for colorizing frame %s --> %.3f"%(ind, time.time()-st))
+        for idx in range(5):
+            os.makedirs("{}/result{}".format(output_dir, idx), exist_ok=True)
         out_all = np.concatenate([output[:,:,:,3*i:3*i+3] for i in range(4)],axis=2)
         for idx in range(4):
-            imageio.imwrite("test_result/%s/%s/result%d/%05d.jpg"%(model,folder,idx+1, ind),np.uint8(np.maximum(np.minimum(output[0,:,:,3*idx:3*idx+3] * 255.0,255.0),0.0)))
-        imageio.imwrite("test_result/%s/%s/result0/%05d.jpg"%(model,folder,ind),np.uint8(np.maximum(np.minimum(out_all[0,:,:,:] * 255.0,255.0),0.0)))    
-        imageio.imwrite("test_result/%s/%s/result0/input_%05d.jpg"%(model,folder,ind),np.uint8(np.maximum(np.minimum(im[0,:,:,0] * 255.0,255.0),0.0)))    
+            imageio.imwrite("{}/result{}/{:05d}.jpg".format(output_dir, idx+1, ind), 
+                np.uint8(np.maximum(np.minimum(output[0,:,:,3*idx:3*idx+3] * 255.0,255.0),0.0)))
+        imageio.imwrite("{}/result0/{:05d}.jpg".format(output_dir, ind),np.uint8(np.maximum(np.minimum(out_all[0,:,:,:] * 255.0,255.0),0.0)))    
+        imageio.imwrite("{}/result0/input_{:05d}.jpg".format(output_dir, ind),np.uint8(np.maximum(np.minimum(im[0,:,:,0] * 255.0,255.0),0.0)))    
         
         ind+=1
 
@@ -133,7 +141,7 @@ else:
     im=im[np.newaxis,:h,:w,np.newaxis]
     st=time.time()
     output=sess.run(g0,feed_dict={input_i:np.concatenate((im,im),axis=3)})
-    print("test time for %s --> %.3f"%(img_path, time.time()-st))
+    print("test time for frame %s --> %.3f"%(img_path, time.time()-st))
     folder = video_path.split('/')[-1]
     out_all = np.concatenate([output[:,:,:,3*i:3*i+3] for i in range(4)],axis=2)
     for idx in range(4):

@@ -62,15 +62,27 @@ python test.py --img_path demo_imgs/
 The results are saved in test_result/
 
 ### Video colorization without optical flow
-For video colorization, the video should be split to frames first, i.e., transfer video format (.mp4/.avi) to image format (.jpg/.png)
+Step1. the video should be split to frames first:
 ```
-python test_div_video.py  --video_path /PATH/TO/TEST/DIR
-
-e.g.
-python test_div_video.py --video_path demo_vid
+python video_utils.py --video2frames  --video_dir demo.mkv --out_frames_dir demo_framesdir
 ```
 
-Results are saved in ./test_results/ folder.
+Step2. Colorizing blanc-and-white frames (you can also use the image colorization pretrained model to colorize the frames):
+```
+python test_div_video.py --use_gpu 1 --video_path demo_framesdir 
+```
+Results are saved in video_path_colorized, e.g., demo_framesdir_colorized
+
+Step3. Convert colorized frames to video, note that you need to check the fps of original video
+```
+python video_utils.py --frames2video --colorized_video_dir demo_colorized.mp4 --colorized_frames_dir demo_framesdir_colorized --fps 24
+```
+
+Step4. Add the sound of original video (again, you need to make sure the fps of colorized vide is consistent with the original video)
+```
+python video_utils.py --add_sound --colorized_video_dir demo_colorized.mp4 --video_dir demo.mkv
+```
+
 
 
 ## Training

@@ -84,7 +84,13 @@ def test():
         h=gray_image.shape[0] // 32 * 32
         w=gray_image.shape[1] // 32 * 32       
         pred_image = sess.run(pred1, feed_dict={gray1:gray_image[np.newaxis,:h,:w,np.newaxis]})
-        imageio.imwrite("./test_result/{}/{}".format(ARGS.model, basename.replace(".JPEG", "_gray.png")), gray_image[:h,:w])
-        imageio.imwrite("./test_result/{}/{}".format(ARGS.model, basename.replace(".JPEG", "_colorized.png")), pred_image[0])
+        if ARGS.video_path is None:
+            imageio.imwrite("./test_result/{}/{}".format(ARGS.model, basename.replace(".JPEG", "_gray.png")), gray_image[:h,:w])
+            imageio.imwrite("./test_result/{}/{}".format(ARGS.model, basename.replace(".JPEG", "_colorized.png")), pred_image[0])
+        else:
+            base_path = ARGS.video_path[:-1] if ARGS.video_path.endswith("/") else ARGS.video_path
+            os.makedirs(base_path + "_colorized", exist_ok=True)
+            imageio.imwrite("{}_colorized/{}".format(base_path, basename), gray_image[:h,:w])
+            imageio.imwrite("{}_colorized/{}".format(base_path, basename), pred_image[0])
 
 test()
