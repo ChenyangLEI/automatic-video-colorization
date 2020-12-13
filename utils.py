@@ -270,7 +270,7 @@ def get_weight_bias(vgg_layers,i):
     bias=tf.constant(np.reshape(bias,(bias.size)))
     return weights,bias
 
-vgg_rawnet==io.loadmat('VGG_Model/imagenet-vgg-verydeep-19.mat')
+vgg_rawnet=io.loadmat('VGG_Model/imagenet-vgg-verydeep-19.mat')
 def build_vgg19(input,reuse=False):
     with tf.variable_scope("vgg19"):
         if reuse:
