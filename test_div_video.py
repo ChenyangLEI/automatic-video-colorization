@@ -115,14 +115,14 @@ if img_path is None:
         output=sess.run(g0,feed_dict={input_i:np.concatenate((im,im),axis=3)})
         print("test time for %s --> %.3f"%(ind, time.time()-st))
         folder = video_path.split('/')[-1]
-        if not os.path.isdir("%s/%s" % (model,folder)):
+        if not os.path.isdir("test_result/%s/%s" % (model,folder)):
             for idx in range(5):
-                os.makedirs("%s/%s/result%d" % (model,folder,idx))
+                os.makedirs("test_result/%s/%s/result%d" % (model,folder,idx))
         out_all = np.concatenate([output[:,:,:,3*i:3*i+3] for i in range(4)],axis=2)
         for idx in range(4):
-            imageio.imwrite("%s/%s/result%d/%05d.jpg"%(model,folder,idx+1, ind),np.uint8(np.maximum(np.minimum(output[0,:,:,3*idx:3*idx+3] * 255.0,255.0),0.0)))
-        imageio.imwrite("%s/%s/result0/%05d.jpg"%(model,folder,ind),np.uint8(np.maximum(np.minimum(out_all[0,:,:,:] * 255.0,255.0),0.0)))    
-        imageio.imwrite("%s/%s/result0/input_%05d.jpg"%(model,folder,ind),np.uint8(np.maximum(np.minimum(im[0,:,:,0] * 255.0,255.0),0.0)))    
+            imageio.imwrite("test_result/%s/%s/result%d/%05d.jpg"%(model,folder,idx+1, ind),np.uint8(np.maximum(np.minimum(output[0,:,:,3*idx:3*idx+3] * 255.0,255.0),0.0)))
+        imageio.imwrite("test_result/%s/%s/result0/%05d.jpg"%(model,folder,ind),np.uint8(np.maximum(np.minimum(out_all[0,:,:,:] * 255.0,255.0),0.0)))    
+        imageio.imwrite("test_result/%s/%s/result0/input_%05d.jpg"%(model,folder,ind),np.uint8(np.maximum(np.minimum(im[0,:,:,0] * 255.0,255.0),0.0)))    
         
         ind+=1
 
@@ -137,6 +137,6 @@ else:
     folder = video_path.split('/')[-1]
     out_all = np.concatenate([output[:,:,:,3*i:3*i+3] for i in range(4)],axis=2)
     for idx in range(4):
-        imageio.imwrite("%s/%s_result%d.jpg"%(model,img_path.split('/')[-1][:-4],idx+1),np.uint8(np.maximum(np.minimum(output[0,:,:,3*idx:3*idx+3] * 255.0,255.0),0.0)))
-    imageio.imwrite("%s/%s_result.jpg"%(model,img_path.split('/')[-1][:-4]),np.uint8(np.maximum(np.minimum(out_all[0,:,:,:] * 255.0,255.0),0.0)))    
-    imageio.imwrite("%s/%s_input.jpg"%(model,img_path.split('/')[-1][:-4]),np.uint8(np.maximum(np.minimum(im[0,:,:,0] * 255.0,255.0),0.0)))    
+        imageio.imwrite("test_result/%s/%s_result%d.jpg"%(model,img_path.split('/')[-1][:-4],idx+1),np.uint8(np.maximum(np.minimum(output[0,:,:,3*idx:3*idx+3] * 255.0,255.0),0.0)))
+    imageio.imwrite("test_result/%s/%s_result.jpg"%(model,img_path.split('/')[-1][:-4]),np.uint8(np.maximum(np.minimum(out_all[0,:,:,:] * 255.0,255.0),0.0)))    
+    imageio.imwrite("test_result/%s/%s_input.jpg"%(model,img_path.split('/')[-1][:-4]),np.uint8(np.maximum(np.minimum(im[0,:,:,0] * 255.0,255.0),0.0)))    
